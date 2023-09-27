@@ -2,10 +2,7 @@ package com.bbva.practitioner.bookapi.entities;
 
 import org.springframework.lang.NonNull;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Book {
@@ -58,6 +55,19 @@ public class Book {
     return country;
   }
 
+  @OneToOne
+  @JoinColumn(name="book_id")
+  private Artist artist;
+
+  public Artist getArtist() {
+    return artist;
+  }
+
+  public void setArtist(Artist artist) {
+    this.artist = artist;
+  }
+
+
   public void setCountry(String country) {
     this.country = country;
   }
@@ -65,10 +75,11 @@ public class Book {
   public Book() {
   }
 
-  public Book(String title, String description, Integer publicationYear, String country) {
+  public Book(String title, String description, Integer publicationYear, String country, Artist artist) {
     this.title = title;
     this.description = description;
     this.publicationYear = publicationYear;
     this.country = country;
+    this.artist = artist;
   }
 }

@@ -1,6 +1,8 @@
 package com.bbva.practitioner.bookapi;
 
+import com.bbva.practitioner.bookapi.entities.Artist;
 import com.bbva.practitioner.bookapi.entities.Book;
+import com.bbva.practitioner.bookapi.repositories.ArtistRepository;
 import com.bbva.practitioner.bookapi.repositories.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,24 +15,36 @@ public class DatabasePreloader {
   private static Logger logger = LoggerFactory.getLogger(DatabasePreloader.class);
 
   @Bean
-  CommandLineRunner preloadDatabase(BookRepository repository) {
+  CommandLineRunner preloadDatabase(BookRepository books, ArtistRepository artists) {
     return (args) -> {
-      this.logger.info("Preloading books in database...");
+      this.logger.info("Preloading books artists...");
+      Artist borges = new Artist(
+              "Jorge Luis",
+              "Borges",
+              1899
+      );
+      artists.save(borges);
+      this.logger.info("Artists preloaded to database...");
+      this.logger.info("Preloading books artists...");
       Book book1 = new Book(
               "El Aleph",
               "...",
               1949,
-              "Argentina"
+              "Argentina",
+              borges
       );
-      repository.save(book1);
+      books.save(book1);
       Book book2 = new Book(
-              "Rayuela",
+              "Ficicones",
               "...",
-              1963,
-              "Argentina"
+              1944,
+              "Argentina",
+              borges
       );
-      repository.save(book2);
+      books.save(book2);
       this.logger.info("Books preloaded to database");
+
+
     };
   }
 }
